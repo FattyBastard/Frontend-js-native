@@ -98,10 +98,11 @@ var index = 1;
         });
 
 
+        // slider
+
         const leftSlider = document.querySelector(".slider-left-link");
         const rightSlider = document.querySelector(".slider-right-link");
         const sliderField = document.querySelector(".slider-field");
-        // const sliderWrapper = document.querySelector(".slider-wrapper");
         const sliderImg = document.querySelector(".slider-img");
         const slides = document.querySelectorAll(".slider-img");
 
@@ -143,6 +144,13 @@ var index = 1;
              
             sliderField.style.transform = `translateX(${-offset}px)`;
 
+            dots.forEach(dot => {
+                dot.classList.remove("active-dot");
+                if (dot.getAttribute("slide-index") == sliderIndex){
+                    dot.classList.add("active-dot");
+                }
+            });
+
             if (sliderIndex < 10){
                 currentField.textContent = `0${sliderIndex}`;
             }else{
@@ -165,12 +173,71 @@ var index = 1;
             
             sliderField.style.transform = `translateX(${-offset}px)`;
 
+            dots.forEach(dot => {
+                dot.classList.remove("active-dot");
+                if (dot.getAttribute("slide-index") == sliderIndex){
+                    dot.classList.add("active-dot");
+                }
+            });
+
             if (sliderIndex < 10){
                 currentField.textContent = `0${sliderIndex}`;
             }else{
                 currentField.textContent = `${sliderIndex}`;
             }
         });
+
+        // dots for slider
+
+        function createDots(){
+
+            const parentSelector = document.querySelector(".slider-wrapper");
+            const corusel = document.createElement("ol");
+            corusel.classList.add("corusel");
+
+
+            for (let i = 1; i <= slides.length; i++){
+
+                const dot = document.createElement("li");
+                dot.classList.add("dot");
+                dot.setAttribute("slide-index", i);
+                corusel.appendChild(dot);
+
+                if (i == 1){
+                    dot.classList.add("active-dot");
+                }
+            }
+
+            parentSelector.appendChild(corusel);
+        }
+
+        createDots();
+
+        const dots = document.querySelectorAll(".dot");
+
+        dots.forEach(dot => {
+            dot.addEventListener("click", event => {
+                
+                dots.forEach(dot => {
+                    dot.classList.remove("active-dot");
+                });
+
+                event.target.classList.add("active-dot");
+
+                sliderIndex = +dot.getAttribute("slide-index");
+                offset = +(+width.slice(0, (width.length - 2)) * (sliderIndex - 1));
+
+                sliderField.style.transform = `translateX(${-offset}px)`;
+
+                if (sliderIndex < 10){
+                    currentField.textContent = `0${sliderIndex}`;
+                }else{
+                    currentField.textContent = `${sliderIndex}`;
+                }
+            });
+        });
+
+        // request to get photo from github
 
         async function requestUser(user){
 
@@ -185,25 +252,26 @@ var index = 1;
                 
         }
 
-        // async function requestUserRepo(user){
+        async function requestUserRepo(user){
 
-        //     const response =  await requestUser(user);
+            const response =  await requestUser(user);
 
-        //     console.log(response);
+            console.log(response);
 
-        //     const avatarGithub = document.createElement("img");
-        //     const body = document.querySelector("body");
+            const avatarGithub = document.createElement("img");
+            const body = document.querySelector("body");
 
-        //     avatarGithub.src = response.avatar_url;
-        //     avatarGithub.style = "display: flex; height: 100px; width: 100px; margin-left: auto; margin-right: auto;";
+            avatarGithub.src = response.avatar_url;
+            avatarGithub.style = "display: flex; height: 100px; width: 100px; margin-left: auto; margin-right: auto;";
 
-        //     body.appendChild(avatarGithub);
+            body.appendChild(avatarGithub);
 
 
-        // }
+        }
 
 
         // requestUserRepo("FattyBastard");
+        // function to get data from mockapi and place on page
 
         async function getPage(url){
 
@@ -259,19 +327,6 @@ var index = 1;
             
         });
 
-        // getCard("https://62d3fc235112e98e48488072.mockapi.io/cards/1");
-        // getCard("https://62d3fc235112e98e48488072.mockapi.io/cards/2");
-        // getCard("https://62d3fc235112e98e48488072.mockapi.io/cards/3");
-        // getCard("https://62d3fc235112e98e48488072.mockapi.io/cards/4");
-        // getCard("https://62d3fc235112e98e48488072.mockapi.io/cards/5");
-        // getCard("https://62d3fc235112e98e48488072.mockapi.io/cards/6");
-        // getCard("https://62d3fc235112e98e48488072.mockapi.io/cards/7");
-        // getCard("https://62d3fc235112e98e48488072.mockapi.io/cards/8");
-        // getCard("https://62d3fc235112e98e48488072.mockapi.io/cards/9");
-        // getCard("https://62d3fc235112e98e48488072.mockapi.io/cards/10");
-        // getCard("https://62d3fc235112e98e48488072.mockapi.io/cards/11");
-        // getCard("https://62d3fc235112e98e48488072.mockapi.io/cards/12");
-        // getCard("https://62d3fc235112e98e48488072.mockapi.io/cards/13");
 
             
         
